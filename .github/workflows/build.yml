@@ -14,10 +14,8 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 30
-        ndk-version: r25
-        emulator-version: 30.8.4
         arch: x86_64
-        profile: Nexus_6P_API_30
+        profile: Nexus 6
         script: echo "Emulator is up and running."
       env:
         ANDROID_NDK_HOME: ${{ runner.temp }}/ndk
