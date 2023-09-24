@@ -78,7 +78,7 @@ if ! command_exists git || ! command_exists adb; then
 fi
 
 # Check if the 'swift' command is available
-if [ ! -f "$HOME/.local/bin/swift" ]; then
+if ! command -v swift &>/dev/null; then
     echo "Swift is not installed. Installing Swift..."
   
     # Install Swift using swiftly-install.sh
@@ -86,7 +86,7 @@ if [ ! -f "$HOME/.local/bin/swift" ]; then
     swiftly install latest
 
     # Check if Swift installation was successful
-    if [ ! -f "$HOME/.local/bin/swift" ]; then
+    if ! command -v swift &>/dev/null; then
         echo "Failed to install Swift. Please check the installation and try again."
         exit 1
     fi
