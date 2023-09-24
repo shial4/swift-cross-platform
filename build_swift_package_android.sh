@@ -65,7 +65,7 @@ fi
 
 if [ -n "${config_values[1]}" ]; then
     ANDROID_ARCH="${config_values[1]}"
-fi
+fith
 
 if [ -n "${config_values[2]}" ]; then
     ANDROID_API_LEVEL="${config_values[2]}"
@@ -90,6 +90,9 @@ if ! command -v swift &>/dev/null; then
         echo "Failed to install Swift. Please check the installation and try again."
         exit 1
     fi
+
+    # Add the directory where swiftly is installed to the PATH
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 SWIFT_TAG=$(swiftly list-available | grep -oE 'swift-[0-9]+\.[0-9]+\.[0-9]+')
