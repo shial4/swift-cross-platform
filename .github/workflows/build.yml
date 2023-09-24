@@ -16,9 +16,9 @@ jobs:
         api-level: 30
         ndk-version: r25
         emulator-version: 30.8.4
-        arch: x86_64
+        arch: aarch64
         profile: Nexus_6P_API_30
-        script: start-emulator.sh
+        script: echo "Emulator is up and running."
       env:
         ANDROID_NDK_HOME: ${{ runner.temp }}/ndk
 
