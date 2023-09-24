@@ -1,0 +1,44 @@
+name: Build Swift Package for Android
+
+on: [push]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Android NDK
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        ndk-version: r25
+        emulator-version: 30.8.4
+        arch: x86_64
+        profile: Nexus_6P_API_30
+        scripts: emulator -list-avds
+      env:
+        ANDROID_NDK_HOME: ${{ runner.temp }}/ndk
+
+    - name: Install SDL2
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install libsdl2-dev -y
+      shell: bash
+
+    - name: Set up Swift environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang cmake ninja-build python3 rsync
+      shell: bash
+
+    # Add additional steps to install other dependencies as needed
+
+    - name: Run the shell script
+      run: |
+        chmod +x build_swift_package_android.sh
+        ./build_swift_package_android.sh -n "$ANDROID_NDK_HOME"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

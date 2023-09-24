@@ -1,0 +1,6 @@
+{
+    "NDK_PATH": "/path/to/android-ndk-r25b",
+    "ANDROID_ARCH": "aarch64",
+    "ANDROID_API_LEVEL": "21"
+}
+  
