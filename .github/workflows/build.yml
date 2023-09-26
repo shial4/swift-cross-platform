@@ -1,6 +1,9 @@
 name: Build Swift Package for Android
 
-on: [push]
+on:
+  push:
+    branches:
+      - mater
 
 jobs:
   validate:

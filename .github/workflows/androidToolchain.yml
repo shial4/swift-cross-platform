@@ -25,6 +25,8 @@ jobs:
 
       - name: Set Up Swift Environment
         run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build python3 rsync
           export SWIFT_PATH=$HOME/swift-latest/usr/bin
           mkdir -p $SWIFT_PATH
           LATEST_TAG=$(curl -s https://api.github.com/repos/apple/swift/releases/latest | grep "tag_name" | cut -d '"' -f 4)
@@ -32,11 +34,12 @@ jobs:
           tar -xzf ${LATEST_TAG}.tar.gz
           mv swift-*/usr/* $SWIFT_PATH
           rm -rf swift-* ${LATEST_TAG}.tar.gz
+        shell: bash
 
-      - name: Set up Swift environment
+      - name: View NDK & Swift Paths
         run: |
-          sudo apt-get update
-          sudo apt-get install -y clang cmake ninja-build python3 rsync
+          echo "NDK: $ANDROID_NDK_HOME"
+          echo "SWIFT: $SWIFT_PATH"
         shell: bash
 
       - name: Build Swift Android Toolchain
