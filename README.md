@@ -1,6 +1,7 @@
 # Swift Package project with cross-platform support
 
 [![Android](https://github.com/shial4/swift-cross-platform/workflows/Build%20Swift%20Package%20for%20Android/badge.svg)](https://github.com/shial4/swift-cross-platform/actions)
+[![Build Swift Android Toolchain](https://img.shields.io/github/workflow/status/shial4/swift-cross-platform/Build%20Swift%20Android%20Toolchain?label=Toolchain%20Version&logo=github&style=flat-square)](https://github.com/shial4/swift-cross-platform/actions)
 
 This repository aims to build a Swift package application with cross-platform support for Android, macOS, Linux, Windows, iOS, and other compatible Swift platforms. To validate and test, we run a GitHub Actions workflow for each supported platform. 
 
