@@ -1,0 +1,62 @@
+name: Build Swift Android Toolchain
+
+on:
+  push:
+    branches:
+      - android-toolchain
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Android NDK
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: Nexus 6
+          script: echo "Emulator is up and running."
+        env:
+          ANDROID_NDK_HOME: ${{ runner.temp }}/ndk
+
+      - name: Set Up Swift Environment
+        run: |
+          export SWIFT_PATH=$HOME/swift-latest/usr/bin
+          mkdir -p $SWIFT_PATH
+          LATEST_TAG=$(curl -s https://api.github.com/repos/apple/swift/releases/latest | grep "tag_name" | cut -d '"' -f 4)
+          wget https://github.com/apple/swift/archive/refs/tags/${LATEST_TAG}.tar.gz
+          tar -xzf ${LATEST_TAG}.tar.gz
+          mv swift-*/usr/* $SWIFT_PATH
+          rm -rf swift-* ${LATEST_TAG}.tar.gz
+
+      - name: Set up Swift environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build python3 rsync
+        shell: bash
+
+      - name: Build Swift Android Toolchain
+        run: |
+          git checkout ${LATEST_TAG}
+          utils/build-script \
+            -R \
+            --android \
+            --android-ndk $ANDROID_NDK_HOME \
+            --android-arch aarch64 \
+            --android-api-level 21 \
+            --stdlib-deployment-targets=android-aarch64 \
+            --native-swift-tools-path=$SWIFT_PATH \
+            --native-clang-tools-path=$SWIFT_PATH \
+            --build-swift-tools=0 \
+            --build-llvm=0 \
+            --skip-build-cmark
+
+      - name: Archive Swift Toolchain
+        uses: actions/upload-artifact@v2
+        with:
+          name: swift-toolchain
+          path: $SWIFT_PATH
